@@ -1,75 +1,79 @@
 # VitalVista
-Vitalvista is a specialized tool designed for biology researchers to process and visualize biological images with depth and heat mapping overlays. The tool is optimized for skeletal imaging and fluorescence overlays, providing clear and detailed insights into biological data. It is particularly useful in applications such as histology, immunohistochemistry, and molecular biology.
 
-[Features]
+VitalVista is a comprehensive image processing toolkit designed for analyzing and visualizing multi-channel fluorescence and brightfield microscopy images. This tool is especially useful for researchers working with `.tif` image files, providing capabilities such as adaptive thresholding, overlay creation, and intersection analysis of fluorescence images.
 
-    Depth Mapping: Visualizes depth information in biological images.
-    Heat Mapping: Applies heat maps to highlight areas of interest.
-    Skeletal Imaging: Optimized for bone structure visualization.
-    Fluorescence Overlays: Handles fluorescence markers with predefined color mappings.
-    Customization: Flexible to allow for adjustments in thresholding, color mapping, and image formats.
+## Features
 
-[Installation]
+- **Adaptive Thresholding**: Apply adaptive thresholding to brightfield images to extract bone outlines and other structures.
+- **Overlay Creation**: Generate colored overlays for UW, Col10, and Twist fluorescence channels.
+- **Intersection Analysis**: Calculate intersections between different fluorescence channels and analyze them.
+- **Image Export**: Save processed images and overlays as `.tif` files.
+- **CSV Output**: Export intersection and other image metrics to a consolidated CSV file.
 
-To install and run Vitalvista, clone the repository and install the required dependencies:
+## How to Use
 
-bash
+### Directory Structure
+- **Root Directory**: Set the root directory where your images are stored in the `root_directory` variable.
+- **Central Output Folder**: Define the central output folder for saving processed images and CSV files in the `central_output_folder` variable.
 
-git clone https://github.com/yourusername/vitalvista.git
-cd vitalvista
-pip install -r requirements.txt
+### Image Requirements
+- Images should be in `.tif` format.
+- Brightfield images should include `_BF_` in their filenames.
+- Fluorescence images should include `_UW_`, `_Col10_`, or `_Twist_` in their filenames.
 
-[Usage]
+### Key Functions
 
-Here’s a basic example of how to use Vitalvista:
+- **is_valid_image_file(file_path)**: Validates the image file, ensuring it is not corrupted.
+- **apply_bf_adaptive_threshold_inverted(bf_image)**: Applies adaptive thresholding to the brightfield image and inverts it to highlight bone outlines.
+- **ensure_rgba(image)**: Ensures the image has an RGBA format.
+- **create_colored_overlay(mask, color)**: Creates a colored overlay for a given mask.
+- **enhance_colors(image, color_factors)**: Enhances the color intensity of the overlay.
+- **blend_images(base_image, overlay_image, alpha=0.5)**: Blends the overlay image with the base image.
+- **calculate_intersections(uw_map, col10_map, twist_map)**: Calculates intersection areas between different overlays.
+- **process_image_pair(bf_image_path, uw_image_path, col10_image_path, twist_image_path, output_dir)**: Processes an image set and saves the results.
+- **process_all_images(root_dir, output_dir)**: Processes all images in the root directory and saves the results in the central output folder.
 
-python
+### Customization
 
-from vitalvista import process_image_pair
+- **Threshold Values**: Adjust the thresholds for the UW, Col10, and Twist images within the `process_image_pair` function:
+  ```python
+  uw_threshold = np.mean(density_uw) + 0.5 * np.std(density_uw)
+  col10_threshold = np.mean(density_col10) + 0.5 * np.std(density_col10)
+  twist_threshold = np.mean(density_twist) + 0.5 * np.std(density_twist)
+  ```
+- **Overlay Colors**: Modify the overlay colors in the `process_image_pair` function:
+  ```python
+  uw_colored[..., 2] = uw_density_map  # Blue channel
+  col10_colored[..., 1] = col10_density_map  # Green channel
+  twist_colored[..., 0] = twist_density_map  # Red channel
+  ```
+- **Output Paths**: Change the output paths for images and CSV files by modifying the `central_output_folder` variable and paths in the `process_image_pair` and `process_all_images` functions.
 
-bf_image_path = 'path/to/bf_image.tif'
-uw_image_path = 'path/to/uw_image.tif'
-col10_image_path = 'path/to/col10_image.tif'
-twist_image_path = 'path/to/twist_image.tif'
-output_dir = 'path/to/output/'
+### Example Usage
 
-process_image_pair(bf_image_path, uw_image_path, col10_image_path, twist_image_path, output_dir)
+1. Set the `root_directory` and `central_output_folder` paths in the script.
+2. Run the script to process all valid images in the root directory.
+3. Check the `central_output_folder` for the output images and CSV file.
 
-[Command-Line Usage]
+### Requirements
 
-You can also run Vitalvista from the command line:
+- Python 3.x
+- numpy
+- pandas
+- scikit-image
+- PIL (Python Imaging Library)
 
-bash
+### Installation
 
-python vitalvista.py --input_dir /path/to/input/ --output_dir /path/to/output/
+Install the required packages using pip:
+```bash
+pip install numpy pandas scikit-image pillow
+```
 
-[Customization]
+### License
 
-Vitalvista is designed with flexibility in mind. You may need to customize it for broader use:
+This project is licensed under the MIT License.
 
-    Thresholding: Adjust the adaptive thresholding parameters to fit different tissue types or imaging conditions.
-    Color Mapping: Modify the predefined color mappings for different fluorescence markers.
-    Image Format Compatibility: Extend support to handle various image formats beyond .tif.
+### Contact
 
-[Future Enhancements]
-
-Future updates will focus on enhancing the tool's flexibility and performance, including:
-
-    Broader image format support
-    Improved performance for large datasets
-    Enhanced user interface for easier customization
-
-[Limitations]
-
-    Current Focus: Optimized primarily for skeletal and fluorescence imaging.
-    Customization Required: May need adjustments for broader biological applications.
-
-[Contributing]
-
-We welcome contributions! If you have ideas for improving Vitalvista or want to report bugs, please open an issue or submit a pull request.
-License
-
-Vitalvista is licensed under the MIT License. See LICENSE for more information.
-Contact
-
-For questions or support, please reach out to [vvelacs@gmail.com].
+For any inquiries or support, please open an issue on the GitHub repository.
