@@ -79,5 +79,5 @@ This project is licensed under the MIT License.
 
 For any inquiries or support, please open an issue on the GitHub repository.
 
-### Known Issues:
+### Known Issues
 The damn thing won't merge the images any which way. Do it on Photoshop/Paint.Net or help me fix it, thanks!
