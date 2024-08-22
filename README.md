@@ -2,8 +2,6 @@
 
 VitalVista is a comprehensive image processing toolkit designed for analyzing and visualizing multi-channel fluorescence and brightfield microscopy images. This tool is especially useful for researchers working with `.tif` image files, providing capabilities such as adaptive thresholding, overlay creation, and intersection analysis of fluorescence images.
 
-Known Issues:
-The damn thing won't merge the images any which way. Do it on Photoshop/Paint.Net or help me fix it, thanks!
 
 ## Features
 
@@ -80,3 +78,6 @@ This project is licensed under the MIT License.
 ### Contact
 
 For any inquiries or support, please open an issue on the GitHub repository.
+
+### Known Issues:
+The damn thing won't merge the images any which way. Do it on Photoshop/Paint.Net or help me fix it, thanks!
